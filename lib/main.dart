@@ -48,17 +48,39 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Firebase Auth Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          cardTheme: CardTheme(
-            elevation: 4,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            margin: const EdgeInsets.all(10),
-          ),
-        ),
+        // In your MaterialApp theme:
+theme: ThemeData(
+  primarySwatch: Colors.blue,
+  scaffoldBackgroundColor: const Color(0xFF0A0E21),
+  cardTheme: CardTheme(
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
+    color: const Color(0xFF1D1E33),
+  ),
+  textTheme: const TextTheme(
+    headline6: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+    ),
+    bodyText2: TextStyle(
+      color: Colors.white70,
+    ),
+  ),
+  iconTheme: const IconThemeData(
+    color: Colors.white,
+  ),
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Color(0xFF1D1E33),
+    elevation: 0,
+  ),
+  colorScheme: ColorScheme.dark(
+    primary: Colors.blueAccent,
+    secondary: const Color(0xFFEB1555),
+    surface: const Color(0xFF1D1E33),
+  ),
+),
         home: const AuthWrapper(),
         routes: {
           EmailPasswordSignup.routeName: (context) =>
