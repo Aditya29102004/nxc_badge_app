@@ -11,198 +11,147 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.read<FirebaseAuthMethods>().user;
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0E21),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 200,
-            floating: false,
-            pinned: true,
-            backgroundColor: const Color(0xFF1D1E33),
-            flexibleSpace: FlexibleSpaceBar(
-              title: const ScaleIn(
-                child: Text(
-                  'UniTap',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 10,
-                        color: Colors.black45,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xFF1D1E33),
-                      Color(0xFF0A0E21),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: Center(
-                  child: ScaleIn(
-                    begin: 0.7,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.blueAccent.withOpacity(0.2),
-                      child: Icon(
-                        Icons.person,
-                        size: 50,
-                        color: Colors.white.withOpacity(0.8),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: Colors.black,
+            child: Icon(
+              Icons.person,
+              color: Colors.white,
             ),
           ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FadeIn(
-                    delay: const Duration(milliseconds: 300),
-                    child: Text(
-                      'Welcome back,',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  FadeIn(
-                    delay: const Duration(milliseconds: 500),
-                    child: Text(
-                      user.email?.split('@').first ?? 'User',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  StaggeredAnimation(
-                    position: 0,
-                    totalItems: 2,
-                    child: _buildOptionCard(
-                      context,
-                      title: 'Vibe Pass',
-                      subtitle: 'Access exclusive events',
-                      icon: Icons.celebration,
-                      color: const Color(0xFFEB1555),
-                      destination: const VibeScreen(),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  StaggeredAnimation(
-                    position: 1,
-                    totalItems: 2,
-                    child: _buildOptionCard(
-                      context,
-                      title: 'Student Portal',
-                      subtitle: 'Academic resources',
-                      icon: Icons.school,
-                      color: const Color(0xFF00E676),
-                      destination: const StudentScreen(),
-                    ),
-                  ),
-                ],
-              ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.arrow_forward,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              // Navigation action
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          const SizedBox(height: 50),
+
+          // Buttons section
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            child: Column(
+              children: [
+                // UniTap button
+                _buildButton(
+                  context,
+                  title: 'UniTap',
+                  destination: const StudentScreen(),
+                  color: Colors.purple,
+                ),
+
+                const SizedBox(height: 15),
+
+                // Vibe pass button
+                _buildButton(
+                  context,
+                  title: 'Vibe pass',
+                  destination: const VibeScreen(),
+                  color: Colors.purple,
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 50),
+
+          // Illustration section
+          Expanded(
+            child: Center(
+              child: Image.asset('assets/dashboard_illustration.png'),
             ),
           ),
         ],
       ),
+      bottomNavigationBar: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(color: Colors.grey.shade200, width: 1),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildNavItem(Icons.home, 'Home', isSelected: true),
+            _buildNavItem(Icons.radio_button_checked, 'Record'),
+            _buildNavItem(Icons.calendar_today, 'Event'),
+            _buildNavItem(Icons.person, 'Profile'),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildOptionCard(
+  Widget _buildButton(
     BuildContext context, {
     required String title,
-    required String subtitle,
-    required IconData icon,
-    required Color color,
     required Widget destination,
+    required Color color,
   }) {
-    return Card(
-      elevation: 8,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      color: const Color(0xFF1D1E33),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () {
-          Navigator.push(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (_, __, ___) => destination,
-              transitionsBuilder: (_, a, __, c) =>
-                  FadeTransition(opacity: a, child: c),
-            ),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            children: [
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  icon,
-                  color: color,
-                  size: 30,
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white54,
-                size: 20,
-              ),
-            ],
+    return OutlinedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => destination,
+            transitionsBuilder: (_, a, __, c) =>
+                FadeTransition(opacity: a, child: c),
           ),
+        );
+      },
+      style: OutlinedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        side: BorderSide(color: color, width: 1),
+        padding: EdgeInsets.symmetric(vertical: 15),
+        minimumSize: Size(double.infinity, 45),
+      ),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: color,
+          fontSize: 16,
         ),
       ),
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, String label, {bool isSelected = false}) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: isSelected ? Colors.black : Colors.grey,
+          size: 24,
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.black : Colors.grey,
+            fontSize: 12,
+          ),
+        ),
+      ],
     );
   }
 }
