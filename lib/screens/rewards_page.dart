@@ -7,161 +7,71 @@ class RewardsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rewards'),
+        title: const Text(
+          'REWARDS',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.indigo,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        foregroundColor: Colors.indigo,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.stars,
-                          color: Colors.amber.shade700,
-                          size: 32,
-                        ),
-                        const SizedBox(width: 12),
-                        const Text(
-                          'Your Points',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      '580',
-                      style: TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.indigo,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildPointsBadge(
-                          'This Week',
-                          '+45',
-                          Colors.green.shade100,
-                          Colors.green,
-                        ),
-                        const SizedBox(width: 12),
-                        _buildPointsBadge(
-                          'Level',
-                          'Silver',
-                          Colors.grey.shade300,
-                          Colors.grey.shade700,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'Recent Achievements',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-            _buildAchievementCard(
-              'Perfect Attendance',
-              'Attended all classes for 2 weeks straight',
-              '+ 50 points',
-              Icons.calendar_today,
-              Colors.blue,
-            ),
-            _buildAchievementCard(
-              'Book Worm',
-              'Borrowed 5 library books this semester',
-              '+ 30 points',
-              Icons.menu_book,
-              Colors.orange,
-            ),
-            _buildAchievementCard(
-              'Early Bird',
-              'Submitted all assignments before deadlines',
-              '+ 75 points',
-              Icons.access_time_filled,
-              Colors.green,
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'Redeem Rewards',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-            _buildRewardCard(
-              'Cafeteria Voucher',
-              '100 points',
-              '10% off on your next meal',
-              Icons.fastfood,
-            ),
-            _buildRewardCard(
-              'Extra Library Time',
-              '200 points',
-              '+2 hours of library access after hours',
-              Icons.access_time,
-            ),
-            _buildRewardCard(
-              'Premium Study Room',
-              '350 points',
-              '1-day access to premium study rooms',
-              Icons.meeting_room,
-            ),
-          ],
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-    );
-  }
-
-  Widget _buildPointsBadge(String label, String value, Color bgColor, Color textColor) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
+      backgroundColor: Colors.white,
+      body: Column(
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: textColor,
+          // Main content area
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'PAPER SAVER',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  // Book illustration
+                  Image.asset('assets/book_illustration.png'),
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: textColor,
+
+          // Bottom Navigation
+          Container(
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildNavButton(Icons.home_outlined, 'Home', false, context),
+                _buildNavButton(
+                    Icons.play_circle_outline, 'Record', false, context),
+                _buildNavButton(
+                    Icons.calendar_today_outlined, 'Event', true, context),
+                _buildNavButton(
+                    Icons.person_outline, 'Profile', false, context),
+              ],
             ),
           ),
         ],
@@ -169,64 +79,40 @@ class RewardsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAchievementCard(String title, String description, String points, IconData icon, Color iconColor) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: iconColor.withOpacity(0.2),
-          child: Icon(icon, color: iconColor),
-        ),
-        title: Text(title),
-        subtitle: Text(description),
-        trailing: Text(
-          points,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.green,
+  Widget _buildNavButton(
+      IconData icon, String label, bool isActive, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        // Handle navigation button tap
+        // You can implement your navigation logic here
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: isActive ? Colors.black : Colors.grey,
+            size: 24,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRewardCard(String title, String points, String description, IconData icon) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.indigo.shade100,
-              radius: 24,
-              child: Icon(icon, color: Colors.indigo),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: isActive ? Colors.black : Colors.grey,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(description),
-                ],
+          ),
+          if (isActive)
+            Container(
+              height: 3,
+              width: 30,
+              margin: const EdgeInsets.only(top: 4),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.indigo,
-              ),
-              child: Text(points),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
