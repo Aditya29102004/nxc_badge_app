@@ -1,5 +1,5 @@
-// hall_ticket_page.dart
 import 'package:flutter/material.dart';
+import 'hall_ticket_detail_page.dart';
 
 class HallTicketPage extends StatelessWidget {
   const HallTicketPage({Key? key}) : super(key: key);
@@ -7,148 +7,142 @@ class HallTicketPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Hall Ticket'),
+        title: const Text(
+          'Hall Ticket',
+          style: TextStyle(
+            color: Colors.indigo,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        foregroundColor: Colors.indigo,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Center(
-                      child: Text(
-                        'EXAMINATION HALL TICKET',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const Divider(thickness: 1),
-                    const SizedBox(height: 12),
-                    _buildInfoRow('Name', 'John Smith'),
-                    _buildInfoRow('Roll Number', 'CS2023125'),
-                    _buildInfoRow('Program', 'B.Tech Computer Science'),
-                    _buildInfoRow('Semester', 'Spring 2025'),
-                    const SizedBox(height: 24),
-                    const Text(
-                      'Examination Schedule',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    _buildExamCard('CSE101', 'Introduction to Computer Science',
-                        'April 15, 2025', '9:00 AM - 12:00 PM', 'Room: LH-101'),
-                    _buildExamCard('MAT201', 'Advanced Mathematics',
-                        'April 18, 2025', '2:00 PM - 5:00 PM', 'Room: LH-205'),
-                    _buildExamCard('PHY105', 'Physics Fundamentals',
-                        'April 21, 2025', '9:00 AM - 12:00 PM', 'Room: PH-301'),
-                    const SizedBox(height: 24),
-                    Center(
-                      child: ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.download),
-                        label: const Text('Download PDF'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.indigo,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 12,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-    );
-  }
-
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
+      body: Column(
         children: [
-          SizedBox(
-            width: 120,
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Illustration showing the gray dots UI element at top
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 6,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
+                  // Person holding card illustration - using exact illustration from image
+                  Image.asset(
+                    'assets/person_with_card.png',
+                    height: 180,
+                  ),
+                  const SizedBox(height: 50),
+                  // Button to tap student card
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HallTicketDetailPage(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black87,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                      child: const Text(
+                        'Tap Student Card',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Place your card near the device',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          Expanded(
-            child: Text(value),
+          // Bottom navigation bar
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: Colors.black12)),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildNavItem(Icons.home, 'Home'),
+                _buildNavItem(Icons.circle_outlined, 'Record'),
+                _buildNavItem(Icons.calendar_today, 'Event'),
+                _buildNavItem(Icons.person_outline, 'Profile'),
+              ],
+            ),
+          ),
+          // Bottom home indicator line on iPhone
+          Container(
+            width: 135,
+            height: 5,
+            margin: const EdgeInsets.only(bottom: 8),
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(3),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildExamCard(
-      String code, String subject, String date, String time, String venue) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      color: Colors.grey.shade50,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$code: $subject',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Icon(Icons.calendar_today, size: 16),
-                const SizedBox(width: 8),
-                Text(date),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                const Icon(Icons.access_time, size: 16),
-                const SizedBox(width: 8),
-                Text(time),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                const Icon(Icons.location_on, size: 16),
-                const SizedBox(width: 8),
-                Text(venue),
-              ],
-            ),
-          ],
+  Widget _buildNavItem(IconData icon, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: label == 'Home' ? Colors.black : Colors.black54,
+          size: 24,
         ),
-      ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: TextStyle(
+            color: label == 'Home' ? Colors.black : Colors.black54,
+            fontSize: 12,
+          ),
+        ),
+      ],
     );
   }
 }
