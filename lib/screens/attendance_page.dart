@@ -1,153 +1,263 @@
-// attendance_page.dart
 import 'package:flutter/material.dart';
+import 'attendance_detail_page.dart'; // Make sure to create this file
 
-class AttendancePage extends StatefulWidget {
+class AttendancePage extends StatelessWidget {
   const AttendancePage({Key? key}) : super(key: key);
 
   @override
-  State<AttendancePage> createState() => _AttendancePageState();
-}
-
-class _AttendancePageState extends State<AttendancePage> {
-  final List<Map<String, dynamic>> _courses = [
-    {
-      'code': 'CSE101',
-      'name': 'Introduction to Computer Science',
-      'attendance': 85
-    },
-    {'code': 'MAT201', 'name': 'Advanced Mathematics', 'attendance': 92},
-    {'code': 'PHY105', 'name': 'Physics Fundamentals', 'attendance': 78},
-    {'code': 'ENG104', 'name': 'Technical Communication', 'attendance': 88},
-    {'code': 'ECO202', 'name': 'Microeconomics', 'attendance': 95},
-  ];
-
-  @override
   Widget build(BuildContext context) {
-    final overallAttendance = _courses.fold<double>(
-          0.0,
-          (sum, course) => sum + (course['attendance'] as int? ?? 0),
-        ) /
-        _courses.length;
-
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Attendance'),
-        centerTitle: true,
         backgroundColor: Colors.white,
-        foregroundColor: Colors.indigo,
+        elevation: 0,
+        title: const Text(
+          'Attendance',
+          style: TextStyle(
+            color: Colors.deepPurple,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        centerTitle: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Overall Attendance',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  // Pagination dots UI element at top
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 8,
+                        width: 8,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        SizedBox(
-                          height: 120,
-                          width: 120,
-                          child: CircularProgressIndicator(
-                            value: overallAttendance / 100,
-                            strokeWidth: 12,
-                            backgroundColor: Colors.grey.shade300,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              overallAttendance >= 75
-                                  ? Colors.green
-                                  : Colors.red,
-                            ),
-                          ),
+                      const SizedBox(width: 5),
+                      Container(
+                        height: 8,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(4),
                         ),
-                        Text(
-                          '${overallAttendance.toStringAsFixed(1)}%',
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      overallAttendance >= 75
-                          ? 'Good Standing'
-                          : 'Attendance Below Requirement',
-                      style: TextStyle(
-                        color:
-                            overallAttendance >= 75 ? Colors.green : Colors.red,
-                        fontWeight: FontWeight.bold,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'Course Attendance',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _courses.length,
-              itemBuilder: (context, index) {
-                final course = _courses[index];
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  child: ListTile(
-                    title: Text(course['name']),
-                    subtitle: Text(course['code']),
-                    trailing: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        SizedBox(
-                          height: 50,
-                          width: 50,
-                          child: CircularProgressIndicator(
-                            value: course['attendance'] / 100,
-                            backgroundColor: Colors.grey.shade200,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              course['attendance'] >= 75
-                                  ? Colors.green
-                                  : Colors.red,
-                            ),
+                      const SizedBox(width: 5),
+                      Container(
+                        height: 8,
+                        width: 8,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
+                  // Person with card illustration
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // Graph background
+                      Container(
+                        width: 180,
+                        height: 180,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: CustomPaint(
+                          painter: GraphLinesPainter(),
+                        ),
+                      ),
+                      // Person illustration (would be replaced with actual asset)
+                      Image.asset(
+                        'assets/person_with_card.png', // Create or use your own asset
+                      ),
+                      // Card with accent colors
+                      Positioned(
+                        top: 40,
+                        right: 35,
+                        child: Container(
+                          width: 110,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              // Purple dot
+                              Positioned(
+                                top: 20,
+                                left: 15,
+                                child: Container(
+                                  width: 12,
+                                  height: 12,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.deepPurple,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ),
+                              // Purple line
+                              Positioned(
+                                bottom: 25,
+                                left: 15,
+                                child: Container(
+                                  width: 30,
+                                  height: 3,
+                                  decoration: BoxDecoration(
+                                    color: Colors.deepPurple,
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                ),
+                              ),
+                              // Blue rectangle
+                              Positioned(
+                                bottom: 15,
+                                right: 20,
+                                child: Container(
+                                  width: 15,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Text(
-                          '${course['attendance']}%',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 60),
+                  // Button to tap student card
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AttendanceDetailPage(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black87,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
                         ),
-                      ],
+                      ),
+                      child: const Text(
+                        'Tap Student Card',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ),
-                );
-              },
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Place your card near the device',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          ),
+          // Bottom navigation bar
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: Colors.black12)),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildNavItem(context, Icons.home_outlined, 'Home'),
+                _buildNavItem(context, Icons.radio_button_checked, 'Record',
+                    isSelected: true),
+                _buildNavItem(context, Icons.calendar_today_outlined, 'Event'),
+                _buildNavItem(context, Icons.person_outline, 'Profile'),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
+
+  Widget _buildNavItem(BuildContext context, IconData icon, String label,
+      {bool isSelected = false}) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: isSelected ? Colors.black : Colors.black54,
+          size: 24,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.black : Colors.black54,
+            fontSize: 12,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// Custom painter for the background graph lines
+class GraphLinesPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey.withOpacity(0.3)
+      ..strokeWidth = 1;
+
+    // Draw horizontal lines
+    for (int i = 1; i < 4; i++) {
+      double y = size.height * i / 4;
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
+
+    // Draw vertical lines
+    for (int i = 1; i < 4; i++) {
+      double x = size.width * i / 4;
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

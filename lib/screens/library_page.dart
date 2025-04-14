@@ -1,177 +1,175 @@
 import 'package:flutter/material.dart';
+import 'book_history_screen.dart';
 
-class LibraryPage extends StatefulWidget {
-  const LibraryPage({Key? key}) : super(key: key);
-
-  @override
-  State<LibraryPage> createState() => _LibraryPageState();
-}
-
-class _LibraryPageState extends State<LibraryPage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  final List<Map<String, dynamic>> _borrowedBooks = [
-    {
-      'title': 'Introduction to Algorithms',
-      'author': 'Thomas H. Cormen',
-      'dueDate': '2025-04-20',
-      'thumbnail': Icons.book,
-    },
-    {
-      'title': 'Clean Code',
-      'author': 'Robert C. Martin',
-      'dueDate': '2025-04-15',
-      'thumbnail': Icons.book,
-    },
-  ];
-
-  final List<Map<String, dynamic>> _availableBooks = [
-    {
-      'title': 'Design Patterns',
-      'author': 'Erich Gamma et al.',
-      'available': true,
-      'thumbnail': Icons.book_online,
-    },
-    {
-      'title': 'The Pragmatic Programmer',
-      'author': 'Andrew Hunt and David Thomas',
-      'available': true,
-      'thumbnail': Icons.book_online,
-    },
-    {
-      'title': 'Refactoring',
-      'author': 'Martin Fowler',
-      'available': false,
-      'thumbnail': Icons.book_online,
-    },
-    {
-      'title': 'Effective Java',
-      'author': 'Joshua Bloch',
-      'available': true,
-      'thumbnail': Icons.book_online,
-    },
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+class StudentCardScreen extends StatelessWidget {
+  const StudentCardScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Library'),
+        title: const Text(
+          'Library',
+          style: TextStyle(
+            color: Colors.indigo,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        foregroundColor: Colors.indigo,
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: Colors.indigo,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: Colors.indigo,
-          tabs: const [
-            Tab(text: 'Borrowed Books'),
-            Tab(text: 'Browse Books'),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black54),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: Column(
+        children: [
+          // Progress indicator
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Container(
+                  width: 36,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    color: Colors.grey,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const Spacer(flex: 1),
+
+          // Student card illustration
+          Center(
+            child: Image.asset(
+              'assets/person_with_card.png',
+              height: 300,
+            ),
+          ),
+
+          const Spacer(flex: 1),
+
+          // Card tap button
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BookHistoryScreen(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey[800],
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                minimumSize: const Size(double.infinity, 50),
+              ),
+              child: const Text(
+                'Tap Student Card',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 16.0),
+
+          // Instruction text
+          const Text(
+            'Place your card near the device',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.black87,
+            ),
+          ),
+
+          const Spacer(flex: 2),
+
+          // Bottom navigation bar
+          const BottomNavigationSection(),
+        ],
+      ),
+    );
+  }
+}
+
+class BottomNavigationSection extends StatelessWidget {
+  const BottomNavigationSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: Colors.grey.shade300, width: 1.0),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildNavItem(Icons.home, 'Home', false),
+            _buildNavItem(Icons.videocam_outlined, 'Record', false),
+            _buildNavItem(Icons.calendar_today, 'Event', true),
+            _buildNavItem(Icons.person_outline, 'Profile', false),
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          // Borrowed Books Tab
-          _borrowedBooks.isEmpty
-              ? const Center(child: Text('No books currently borrowed'))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: _borrowedBooks.length,
-                  itemBuilder: (context, index) {
-                    final book = _borrowedBooks[index];
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.indigo.shade100,
-                          child: Icon(book['thumbnail'], color: Colors.indigo),
-                        ),
-                        title: Text(book['title']),
-                        subtitle: Text(book['author']),
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Text('Due Date:'),
-                            Text(
-                              book['dueDate'],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+    );
+  }
 
-          // Browse Books Tab
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search for books...',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: _availableBooks.length,
-                  itemBuilder: (context, index) {
-                    final book = _availableBooks[index];
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.indigo.shade100,
-                          child: Icon(book['thumbnail'], color: Colors.indigo),
-                        ),
-                        title: Text(book['title']),
-                        subtitle: Text(book['author']),
-                        trailing: TextButton(
-                          child: Text(
-                            book['available'] ? 'Borrow' : 'Reserved',
-                            style: TextStyle(
-                              color:
-                                  book['available'] ? Colors.green : Colors.red,
-                            ),
-                          ),
-                          onPressed: book['available'] ? () {} : null,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+  Widget _buildNavItem(IconData icon, String label, bool isSelected) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          icon,
+          color: isSelected ? Colors.black : Colors.grey,
+          size: 24,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.black : Colors.grey,
+            fontSize: 12,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

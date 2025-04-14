@@ -69,7 +69,8 @@ class StudentScreen extends StatelessWidget {
               Icons.menu_book,
               () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const LibraryPage()),
+                MaterialPageRoute(
+                    builder: (context) => const StudentCardScreen()),
               ),
             ),
             _buildFeatureButton(
