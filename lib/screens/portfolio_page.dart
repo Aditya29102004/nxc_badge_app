@@ -35,7 +35,7 @@ class PortfolioPage extends StatelessWidget {
               children: [
                 // Illustration
                 Image.asset(
-                  'assets/portfolio_illustration.png', // Replace with your actual image path
+                  'assets/portfolio_illustration.png',// Replace with your actual image path
                   height: 200,
                 ),
                 const SizedBox(height: 30),
