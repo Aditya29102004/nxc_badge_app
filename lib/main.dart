@@ -1,19 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_demo/firebase_options.dart';
 import 'package:firebase_auth_demo/screens/dashboard_screen.dart';
-import 'package:firebase_auth_demo/screens/home_screen.dart';
 import 'package:firebase_auth_demo/screens/login_email_password_screen.dart';
-import 'package:firebase_auth_demo/screens/login_screen.dart';
 import 'package:firebase_auth_demo/screens/phone_screen.dart';
 import 'package:firebase_auth_demo/screens/signup_email_password_screen.dart';
 import 'package:firebase_auth_demo/screens/student_screen.dart';
-import 'package:firebase_auth_demo/screens/vibe_screen.dart';
 import 'package:firebase_auth_demo/services/firebase_auth_methods.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
+
+import 'screens/admin_screen.dart';
+import 'screens/card_type_screen.dart';
+import 'screens/normal_user_screen.dart';
+import 'screens/teacher_screen.dart';
+import 'screens/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,6 +85,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: const AuthWrapper(),
+        // In the routes section of MaterialApp in main.dart
+        // In the routes section of MaterialApp in main.dart
         routes: {
           EmailPasswordSignup.routeName: (context) =>
               const EmailPasswordSignup(),
@@ -89,7 +94,11 @@ class MyApp extends StatelessWidget {
           PhoneScreen.routeName: (context) => const PhoneScreen(),
           '/dashboard': (context) => const DashboardScreen(),
           '/student': (context) => const StudentScreen(),
-          '/vibe': (context) => const VibeScreen(),
+          '/teacher': (context) => const TeacherScreen(),
+          '/normal-user': (context) => const NormalUserScreen(),
+          '/admin': (context) => const AdminScreen(),
+          '/welcome': (context) => const WelcomeScreen(),
+          '/card-type': (context) => const CardTypeScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),
@@ -105,14 +114,10 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      // Check if email is verified (only for email/password users)
-      if (!firebaseUser.isAnonymous &&
-          firebaseUser.providerData[0].providerId == 'password' &&
-          !firebaseUser.emailVerified) {
-        return const HomeScreen(); // Shows verify email prompt
-      }
-      return const DashboardScreen(); // Goes to dashboard after verification
+      // You could add logic here to determine which dashboard to show
+      // based on user metadata or claims if you want to remember their role
+      return const DashboardScreen();
     }
-    return const LoginScreen();
+    return const WelcomeScreen(); // Start with the welcome screen
   }
 }
