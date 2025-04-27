@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth_demo/services/firebase_auth_methods.dart';
+import 'card_type_screen.dart';
 import 'package:provider/provider.dart';
 import 'student_screen.dart';
 import 'vibe_screen.dart';

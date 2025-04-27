@@ -15,6 +15,15 @@ class _CardTypeScreenState extends State<CardTypeScreen> {
   String? selectedCardType;
   final TextEditingController _studentIdController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  // Map to directly link card types to routes
+  final Map<String, String> cardTypeToRoutes = {
+    'Student': '/student',
+    'Teacher': '/teacher',
+    'Normal User': '/normal-user',
+    'Temporary Admin': '/admin',
+  };
 
   @override
   void dispose() {
@@ -23,39 +32,133 @@ class _CardTypeScreenState extends State<CardTypeScreen> {
     super.dispose();
   }
 
-  void _handleLogin() async {
+  void _handleGoogleLogin() async {
+    print('GOOGLE LOGIN pressed');
+    print('Current selectedCardType: $selectedCardType');
+
     if (selectedCardType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a card type'),
-        ),
+        const SnackBar(content: Text('Please select a card type')),
       );
       return;
     }
 
-    try {
-      await context.read<FirebaseAuthMethods>().signInWithGoogle(context);
+    setState(() {
+      _isLoading = true;
+    });
 
-      // Navigate to the appropriate screen based on card type
-      switch (selectedCardType) {
-        case 'Student':
-          Navigator.pushReplacementNamed(context, '/dashboard');
-          break;
-        case 'Teacher':
-          Navigator.pushReplacementNamed(context, '/teacher');
-          break;
-        case 'Normal User':
-          Navigator.pushReplacementNamed(context, '/normal-user');
-          break;
-        case 'Temporary Admin':
-          Navigator.pushReplacementNamed(context, '/admin');
-          break;
+    try {
+      // Try to get FirebaseAuthMethods from provider
+      try {
+        final authMethods = context.read<FirebaseAuthMethods>();
+        await authMethods.signInWithGoogle(context);
+
+        // If successful, navigate to the appropriate screen
+        if (mounted) {
+          final route = cardTypeToRoutes[selectedCardType];
+          print(
+              'Google login - Route looked up: $route for type: $selectedCardType');
+          if (route != null) {
+            print('Attempting to navigate to: $route');
+            Navigator.pushReplacementNamed(context, route);
+          }
+        }
+      } catch (e) {
+        print('Auth provider error: $e');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Authentication error: ${e.toString()}')),
+          );
+        }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Sign in failed: ${e.toString()}')),
-      );
+      print('Google sign in error: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sign in failed: ${e.toString()}')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
+  }
+
+  // Improved dev login handler with extensive debugging
+  void _handleDevLogin() {
+    print('DEV LOGIN pressed');
+    print('Current selectedCardType: $selectedCardType');
+
+    if (selectedCardType == null) {
+      print('No card type selected');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a card type')),
+      );
+      return;
+    }
+
+    // Show loading indicator during navigation
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Debug print to verify the map content
+      print('Card type to routes map: $cardTypeToRoutes');
+
+      final route = cardTypeToRoutes[selectedCardType];
+      print('Route looked up: $route for type: $selectedCardType');
+
+      if (route != null) {
+        print('Navigating to route: $route');
+
+        // Add a small delay to ensure the UI updates before navigation
+        Future.delayed(Duration(milliseconds: 100), () {
+          try {
+            print('Attempting navigation to: $route');
+            Navigator.of(context).pushReplacementNamed(route);
+            print('Navigation call completed for route: $route');
+          } catch (navError) {
+            print('Inner navigation error: $navError');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(
+                      'Navigation execution failed: ${navError.toString()}')),
+            );
+          }
+        });
+      } else {
+        print('Route is null for card type: $selectedCardType');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Invalid card type')),
+        );
+      }
+    } catch (e) {
+      print('Navigation error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Navigation failed: ${e.toString()}')),
+      );
+    } finally {
+      // Reset loading state
+      Future.delayed(Duration(milliseconds: 500), () {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+          print('Loading state reset');
+        }
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Print routes on initialization for debugging
+    print('Available routes in cardTypeToRoutes: $cardTypeToRoutes');
   }
 
   @override
@@ -149,33 +252,70 @@ class _CardTypeScreenState extends State<CardTypeScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              InkWell(
-                onTap: _handleLogin,
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'LOGIN',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+              _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: [
+                        InkWell(
+                          onTap: _handleGoogleLogin,
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'GOOGLE LOGIN',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        // Dev Login Button - Direct navigation without auth
+                        InkWell(
+                          onTap: _handleDevLogin,
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[800],
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'DEV LOGIN',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ),
               Spacer(),
-              // Door illustration
+              // Door illustration with error handling
               Align(
                 alignment: Alignment.bottomRight,
                 child: Image.asset(
-                  'assets/door_illustration.png', // Make sure this asset exists
-                  height: 100,
+                  'assets/door_illustration.png',
+                  height: 200,
+                  errorBuilder: (context, error, stackTrace) {
+                    print('Image asset error: $error');
+                    return Container(
+                      height: 400,
+                      width: 100,
+                      color: Colors.grey[300],
+                      child: Icon(Icons.image_not_supported),
+                    );
+                  },
                 ),
               ),
               SizedBox(height: 20),
@@ -193,6 +333,7 @@ class _CardTypeScreenState extends State<CardTypeScreen> {
       onTap: () {
         setState(() {
           selectedCardType = type;
+          print('Selected card type: $type');
         });
       },
       child: Container(
