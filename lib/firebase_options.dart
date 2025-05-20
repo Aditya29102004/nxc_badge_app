@@ -37,7 +37,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyC_ubN3n0_aJZAugjyEeVWPy-CwD1H5nK4',
     appId: '1:599030350718:web:ca91f6b1d6769be8b6292f',
     messagingSenderId: '599030350718',
-    projectId: 'fir-auth-demo-ec48c',
+    projectId: 'nxc-770ad',
     authDomain: 'fir-auth-demo-ec48c.firebaseapp.com',
     storageBucket: 'fir-auth-demo-ec48c.appspot.com',
   );
@@ -46,7 +46,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyB1CD3E2g-zmUoWqK1Le_RNEpPbpb5TrDc',
     appId: '1:599030350718:android:bff62dc1dc7685abb6292f',
     messagingSenderId: '599030350718',
-    projectId: 'fir-auth-demo-ec48c',
+    projectId: 'nxc-770ad',
     storageBucket: 'fir-auth-demo-ec48c.appspot.com',
   );
 
@@ -54,9 +54,10 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyC9wBMEJ1WDl8WkUoxHqIVqPLvwClaTYxs',
     appId: '1:599030350718:ios:d4aadf3cf97a599eb6292f',
     messagingSenderId: '599030350718',
-    projectId: 'fir-auth-demo-ec48c',
+    projectId: 'nxc-770ad',
     storageBucket: 'fir-auth-demo-ec48c.appspot.com',
-    iosClientId: '599030350718-rt5diuiggpna5fmco6k05teqm2km0f66.apps.googleusercontent.com',
+    iosClientId:
+        '599030350718-rt5diuiggpna5fmco6k05teqm2km0f66.apps.googleusercontent.com',
     iosBundleId: 'com.example.firebaseAuthDemo',
   );
 
@@ -64,9 +65,10 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyC9wBMEJ1WDl8WkUoxHqIVqPLvwClaTYxs',
     appId: '1:599030350718:ios:d4aadf3cf97a599eb6292f',
     messagingSenderId: '599030350718',
-    projectId: 'fir-auth-demo-ec48c',
+    projectId: 'nxc-770ad',
     storageBucket: 'fir-auth-demo-ec48c.appspot.com',
-    iosClientId: '599030350718-rt5diuiggpna5fmco6k05teqm2km0f66.apps.googleusercontent.com',
+    iosClientId:
+        '599030350718-rt5diuiggpna5fmco6k05teqm2km0f66.apps.googleusercontent.com',
     iosBundleId: 'com.example.firebaseAuthDemo',
   );
 }
