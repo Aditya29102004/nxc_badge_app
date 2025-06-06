@@ -17,12 +17,15 @@ import 'screens/card_type_screen.dart';
 import 'screens/normal_user_screen.dart';
 import 'screens/teacher_screen.dart';
 import 'screens/welcome_screen.dart';
+import 'screens/temporary_admin_screens/temporary_admin_login_screen.dart';
+import 'screens/issuance_screen.dart';
+import 'screens/single_issuance_add_student_screen.dart';
+import 'screens/download_attendance_screen.dart';
+import 'screens/librarian_mode_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   if (kIsWeb) {
     FacebookAuth.i.webAndDesktopInitialize(
       appId: "1129634001214960", // Replace with your app id
@@ -63,17 +66,13 @@ class MyApp extends StatelessWidget {
             color: const Color(0xFF1D1E33),
           ),
           textTheme: const TextTheme(
-            headline6: TextStyle(
+            titleLarge: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
-            bodyText2: TextStyle(
-              color: Colors.white70,
-            ),
+            bodyLarge: TextStyle(color: Colors.white70),
           ),
-          iconTheme: const IconThemeData(
-            color: Colors.white,
-          ),
+          iconTheme: const IconThemeData(color: Colors.white),
           appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFF1D1E33),
             elevation: 0,
@@ -99,6 +98,13 @@ class MyApp extends StatelessWidget {
           '/admin': (context) => const AdminScreen(),
           '/welcome': (context) => const WelcomeScreen(),
           '/card-type': (context) => const CardTypeScreen(),
+          '/temporary-admin-login': (context) =>
+              const TemporaryAdminLoginScreen(),
+          '/issuance': (context) => const IssuanceScreen(),
+          '/single-issuance-add-student': (context) =>
+              const SingleIssuanceAddStudentScreen(),
+          '/download-attendance': (context) => const DownloadAttendanceScreen(),
+          '/librarian-mode': (context) => const LibrarianModeScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 'We\'ve sent a verification email to:',
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
               Text(
