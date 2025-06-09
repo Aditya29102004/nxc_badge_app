@@ -84,6 +84,7 @@ class Admin6Page extends StatelessWidget {
           vertical: 18,
         ),
       ),
+      style: TextStyle(color: Colors.black),
     );
   }
 

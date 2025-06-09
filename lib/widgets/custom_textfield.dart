@@ -33,6 +33,7 @@ class CustomTextField extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
       ),
+      style: TextStyle(color: Colors.black),
     );
   }
 }
