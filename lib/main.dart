@@ -22,6 +22,7 @@ import 'screens/issuance_screen.dart';
 import 'screens/single_issuance_add_student_screen.dart';
 import 'screens/download_attendance_screen.dart';
 import 'screens/librarian_mode_screen.dart';
+import 'screens/ai_tools/ai_tools_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -105,6 +106,7 @@ class MyApp extends StatelessWidget {
               const SingleIssuanceAddStudentScreen(),
           '/download-attendance': (context) => const DownloadAttendanceScreen(),
           '/librarian-mode': (context) => const LibrarianModeScreen(),
+          '/ai-tools': (context) => const AiToolsScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

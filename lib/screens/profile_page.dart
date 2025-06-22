@@ -1,5 +1,6 @@
 // lib/screens/profile_page.dart
 import 'package:flutter/material.dart';
+import 'profile_photo_screen.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class ProfilePage extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.indigo,
+            color: Color(0xFF5B43E9),
           ),
         ),
         centerTitle: true,
@@ -43,42 +44,57 @@ class ProfilePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Image.asset(
-                        'assets/profile_avatar.png', // Replace with your actual image path
+                        'assets/profile_avatar.png',
                         fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(height: 30),
-
+                    const SizedBox(height: 8),
+                    // Edit icon
+                    IconButton(
+                      icon: const Icon(Icons.edit,
+                          color: Color(0xFF2962FF), size: 32),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const ProfilePhotoScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 10),
                     // Profile info card
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.indigo),
+                        border: Border.all(color: Color(0xFF5B43E9), width: 2),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(
-                        children: [
-                          _buildProfileInfoRow('NAME:', 'Larry j. brown'),
-                          const SizedBox(height: 8),
-                          _buildProfileInfoRow('INSTAGRAM ID:', 'Brownlarry27'),
-                          const SizedBox(height: 8),
-                          _buildProfileInfoRow('FACEBOOK ID:', 'Brownlarry27'),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          _ProfileInfoRow(
+                              label: 'NAME:', value: 'Larry j. brown'),
+                          SizedBox(height: 8),
+                          _ProfileInfoRow(
+                              label: 'INSTAGRAM ID:', value: 'Brownlarry27'),
+                          SizedBox(height: 8),
+                          _ProfileInfoRow(
+                              label: 'FACEBOOK ID:', value: 'Brownlarry27'),
                         ],
                       ),
                     ),
                     const SizedBox(height: 30),
-
-                    // Action buttons
                     _buildActionButton('Tap NFC Card'),
                     const SizedBox(height: 15),
                     _buildActionButton('QR CODE'),
+                    const SizedBox(height: 15),
+                    _buildActionButton('Support'),
                   ],
                 ),
               ),
             ),
           ),
-
           // Bottom Navigation
           Container(
             height: 60,
@@ -98,36 +114,13 @@ class ProfilePage extends StatelessWidget {
                 _buildNavButton(Icons.home_outlined, 'Home', false, context),
                 _buildNavButton(
                     Icons.play_circle_outline, 'Record', false, context),
-                _buildNavButton(
-                    Icons.calendar_today_outlined, 'Event', false, context),
+                _buildNavButton(Icons.groups, 'Community', false, context),
                 _buildNavButton(Icons.person_outline, 'Profile', true, context),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildProfileInfoRow(String label, String value) {
-    return Row(
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.indigo,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        const SizedBox(width: 16),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
-      ],
     );
   }
 
@@ -178,6 +171,35 @@ class ProfilePage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ProfileInfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+  const _ProfileInfoRow({required this.label, required this.value, Key? key})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            color: Color(0xFF5B43E9),
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 16),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
+      ],
     );
   }
 }
