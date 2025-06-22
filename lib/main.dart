@@ -6,6 +6,7 @@ import 'package:firebase_auth_demo/screens/phone_screen.dart';
 import 'package:firebase_auth_demo/screens/signup_email_password_screen.dart';
 import 'package:firebase_auth_demo/screens/student_screen.dart';
 import 'package:firebase_auth_demo/services/firebase_auth_methods.dart';
+import 'package:firebase_auth_demo/theme/text_field_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -55,25 +56,59 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Firebase Auth Demo',
-        // In your MaterialApp theme:
         theme: ThemeData(
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: const Color(0xFF0A0E21),
-          cardTheme: CardTheme(
+          cardTheme: const CardThemeData(
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
-            color: const Color(0xFF1D1E33),
+            color: Color(0xFF1D1E33),
+          ),
+          inputDecorationTheme: const InputDecorationTheme(
+            labelStyle: TextStyle(color: Colors.black),
+            hintStyle: TextStyle(color: Colors.black54),
+            fillColor: Colors.white,
+            filled: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+            counterStyle: TextStyle(color: Colors.black),
+            floatingLabelStyle: TextStyle(color: Colors.black),
+          ),
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: Colors.black,
+            selectionColor: Colors.black26,
+            selectionHandleColor: Colors.black,
+          ),
+          dialogTheme: DialogThemeData(
+            backgroundColor: Colors.white,
+            titleTextStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            contentTextStyle: const TextStyle(color: Colors.black),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
           textTheme: const TextTheme(
             titleLarge: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
-            bodyLarge: TextStyle(color: Colors.white70),
+            bodyMedium: TextStyle(
+              color: Colors.white70,
+            ),
+          ).apply(
+            bodyColor: Colors.black,
           ),
-          iconTheme: const IconThemeData(color: Colors.white),
+          extensions: [
+            TextFieldTheme(
+              textStyle: const TextStyle(color: Colors.black),
+            ),
+          ],
+          iconTheme: const IconThemeData(
+            color: Colors.white,
+          ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFF1D1E33),
             elevation: 0,
@@ -85,8 +120,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: const AuthWrapper(),
-        // In the routes section of MaterialApp in main.dart
-        // In the routes section of MaterialApp in main.dart
         routes: {
           EmailPasswordSignup.routeName: (context) =>
               const EmailPasswordSignup(),

@@ -167,6 +167,7 @@ class Admin28Page extends StatelessWidget {
           borderSide: const BorderSide(color: Color(0xFF3A2BDD), width: 2),
         ),
       ),
+      style: TextStyle(color: Colors.black),
     );
   }
 

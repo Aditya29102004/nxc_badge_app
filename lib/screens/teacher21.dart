@@ -86,6 +86,7 @@ class Teacher21PageState extends State<Teacher21Page> {
                   borderRadius: BorderRadius.circular(48),
                 ),
               ),
+              style: TextStyle(color: Colors.black),
             ),
             const SizedBox(height: 20),
             SizedBox(

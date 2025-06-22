@@ -128,7 +128,7 @@ class Teacher1Page extends StatelessWidget {
           border: InputBorder.none,
           hintStyle: const TextStyle(color: Colors.black54),
         ),
-        style: const TextStyle(color: Colors.black87),
+        style: const TextStyle(color: Colors.black),
         obscureText: hintText == "Password",
       ),
     );

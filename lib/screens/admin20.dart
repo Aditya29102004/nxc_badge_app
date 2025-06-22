@@ -98,31 +98,6 @@ class Admin20Page extends StatelessWidget {
                 ),
               ),
             ),
-
-            const SizedBox(height: 16),
-
-            // Mock NFC Scan Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(48),
-                  ),
-                ),
-                child: const Text(
-                  'Mock NFC Scan',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

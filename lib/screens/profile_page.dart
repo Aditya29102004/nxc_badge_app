@@ -85,8 +85,13 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 30),
+<<<<<<< HEAD
                     _buildActionButton('Tap NFC Card'),
                     const SizedBox(height: 15),
+=======
+
+                    // Action buttons
+>>>>>>> ced63cdf4ab85baadf6d48d68d1afcae46eaffe0
                     _buildActionButton('QR CODE'),
                     const SizedBox(height: 15),
                     _buildActionButton('Support'),

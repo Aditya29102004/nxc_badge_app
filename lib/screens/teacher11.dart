@@ -88,13 +88,6 @@ class Teacher11Page extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            _buildBlackButton(context, "Tap NFC Card", () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const Teacher12Page()),
-              );
-            }),
-            const SizedBox(height: 16),
             _buildBlackButton(context, "QR CODE", () {
               Navigator.pushReplacement(
                 context,

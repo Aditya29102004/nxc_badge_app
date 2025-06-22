@@ -15,6 +15,7 @@ void showOTPDialog({
         children: <Widget>[
           TextField(
             controller: codeController,
+            style: TextStyle(color: Colors.black),
           ),
         ],
       ),
